@@ -1,10 +1,19 @@
 // ══════════════════════════════════════════════
-// CONFIGURACIÓN — edita estas dos secciones
+// CONFIGURACIÓN
 // ══════════════════════════════════════════════
 
-// Fecha en que se entrega el cuadro (año, mes-1, día)
-// Ejemplo: 20 de julio de 2025 → new Date(2025, 6, 20, 0, 0, 0)
-const FECHA_OBJETIVO = new Date(2026, 4, 15, 0, 0, 0);
+// ► Pon aquí la fecha en que entregas el cuadro
+//   Formato: "AÑO-MES-DÍA"  (mes normal, sin trucos)
+//   Ejemplos:
+//     "2025-06-15"  →  15 de junio de 2025
+//     "2025-07-20"  →  20 de julio de 2025
+const FECHA_STR    = "2026-04-15";
+const FECHA_OBJETIVO = new Date(FECHA_STR + "T00:00:00");
+
+// ► MODO PRUEBA — para ver cómo se ve cada día sin tocar el celular
+//   Pon un número del 1 al 15 para forzar ese día en pantalla.
+//   Cuando ya no quieras probar, cámbialo a null.
+const DIA_PRUEBA = null;   // ← ejemplo: pon 3 para ver el día 3
 
 // ── CONTENIDO DE LOS 15 DÍAS ──────────────────
 // foto    → ruta relativa al archivo index.html (ej: "fotos/dia1.jpg")
@@ -189,11 +198,21 @@ function pad(n) {
 
 // Calcula qué día del conteo mostrar (0 = día 1, 14 = día 15)
 function getDayIndex() {
-  const now = new Date();
-  const ms = FECHA_OBJETIVO - now;
-  if (ms <= 0) return 14; // ya llegó el gran día → mostrar día 15
-  const daysLeft = Math.ceil(ms / (1000 * 60 * 60 * 24));
-  return Math.max(0, Math.min(14, 15 - daysLeft));
+  // Modo prueba: fuerza un día específico
+  if (DIA_PRUEBA !== null) return Math.max(0, Math.min(14, DIA_PRUEBA - 1));
+
+  const ahora = new Date();
+  const hoy   = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()); // medianoche local
+  const meta  = new Date(FECHA_STR + "T00:00:00");
+
+  const msDiff  = meta - hoy;
+  if (msDiff <= 0) return 14; // ya llegó el gran día → día 15
+
+  const diasRestantes = Math.round(msDiff / (1000 * 60 * 60 * 24));
+  // 15 días antes → día 1 (idx 0)
+  // 1 día antes   → día 14 (idx 13)
+  // 0 días (hoy)  → día 15 (idx 14)
+  return Math.max(0, Math.min(14, 15 - diasRestantes));
 }
 
 function getTimeLeft() {
