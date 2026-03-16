@@ -165,7 +165,7 @@ const DIAS = [
     }
   },
   {
-    foto: "fotos/dia14.jpg",
+    foto: ".../fotos/dia14.jpg",
     caption: "el día antes",
     frase: "Porque mañana es el gran día y hoy ya estoy celebrando que eres tú.",
     cupon: {
