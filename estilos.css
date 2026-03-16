@@ -31,7 +31,7 @@
 
 body {
   background: var(--musgo2);
-  background-image: url('/fotos/background.jpg');
+  background-image: url('.../fotos/background.jpg');
   color: var(--musgo-text);
   font-family: 'Libre Baskerville', Georgia, serif;
   min-height: 100svh;
