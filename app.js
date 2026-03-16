@@ -291,36 +291,67 @@ function revelarCupon() {
 // ══════════════════════════════════════════════
 
 function guardarCupon() {
-  const btn = document.querySelector('.save-btn');
+  const btn  = document.querySelector('.save-btn');
+  const nodo = document.getElementById('cupon-card');
   btn.classList.add('loading');
   btn.textContent = '⏳ Generando imagen...';
 
-  // html2canvas toma el nodo .cupon y lo convierte a canvas
-  const nodo = document.getElementById('cupon-card');
-
   html2canvas(nodo, {
-    scale: 3,               // alta resolución para pantallas Retina
-    backgroundColor: null,  // fondo transparente
+    scale: 3,
+    backgroundColor: '#f5ead8',
     useCORS: true,
     logging: false
   }).then(canvas => {
-    // Convertir canvas → data URL → link de descarga
-    const url  = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    const idx  = getDayIndex();
-    link.download = `cupon-dia-${idx + 1}.png`;
-    link.href = url;
-    link.click();
-
-    btn.classList.remove('loading');
-    btn.innerHTML = '✓ Imagen lista — revisa tus descargas';
-    showToast('✓ Cupón guardado como imagen');
+    const url = canvas.toDataURL('image/png');
+    const idx = getDayIndex();
+    const esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (esIOS) {
+      mostrarImagenGuardar(url, idx);
+    } else {
+      const link    = document.createElement('a');
+      link.download = `cupon-dia-${idx + 1}.png`;
+      link.href     = url;
+      link.click();
+      btn.classList.remove('loading');
+      btn.innerHTML = '✓ Descargado';
+      showToast('✓ Cupón guardado');
+    }
   }).catch(() => {
-    // Fallback: abrir en nueva pestaña para guardar manualmente
     btn.classList.remove('loading');
-    btn.textContent = '↓ Guardar cupón en fotos';
+    btn.textContent = '↓ Guardar cupón como imagen';
     showToast('Mantén presionado el cupón → "Guardar imagen"');
   });
+}
+
+function mostrarImagenGuardar(url, idx) {
+  const overlay = document.createElement('div');
+  overlay.id = 'img-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(26,15,10,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;padding:2rem;';
+
+  const instruccion = document.createElement('p');
+  instruccion.textContent = '✦ Mantén presionada la imagen → "Añadir a fotos"';
+  instruccion.style.cssText = 'font-family:Space Mono,monospace;font-size:0.65rem;letter-spacing:0.12em;color:#c9a96e;text-align:center;text-transform:uppercase;';
+
+  const img = document.createElement('img');
+  img.src   = url;
+  img.alt   = 'Cupón día ' + (idx + 1);
+  img.style.cssText = 'max-width:90vw;max-height:65vh;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,0.6);';
+
+  const cerrar = document.createElement('button');
+  cerrar.textContent = '✕ Cerrar';
+  cerrar.style.cssText = 'background:transparent;border:1px solid rgba(201,169,110,0.4);color:#8b6650;padding:0.7rem 2rem;font-family:Space Mono,monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;border-radius:2px;';
+  cerrar.onclick = () => {
+    overlay.remove();
+    const b = document.querySelector('.save-btn');
+    b.classList.remove('loading');
+    b.innerHTML = '✓ Listo';
+  };
+
+  overlay.appendChild(instruccion);
+  overlay.appendChild(img);
+  overlay.appendChild(cerrar);
+  document.body.appendChild(overlay);
 }
 
 // ══════════════════════════════════════════════
@@ -350,6 +381,26 @@ function enterApp() {
 loadDayContent();
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+// ── Efecto press en la foto (funciona en móvil y computador) ──
+document.addEventListener('DOMContentLoaded', () => {});
+window.addEventListener('load', () => {
+  const frame = document.querySelector('.photo-frame');
+  if (!frame) return;
+
+  const press   = () => frame.classList.add('pressed');
+  const release = () => frame.classList.remove('pressed');
+
+  // Touch (móvil)
+  frame.addEventListener('touchstart',  press,   { passive: true });
+  frame.addEventListener('touchend',    release, { passive: true });
+  frame.addEventListener('touchcancel', release, { passive: true });
+
+  // Mouse (computador)
+  frame.addEventListener('mousedown', press);
+  frame.addEventListener('mouseup',   release);
+  frame.addEventListener('mouseleave', release);
+});
 
 // Service Worker para que funcione offline (PWA)
 if ('serviceWorker' in navigator) {

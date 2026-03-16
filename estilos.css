@@ -241,9 +241,19 @@ body::before {
     0 10px 30px rgba(0,0,0,0.3),
     inset 0 0 0 1px rgba(0,0,0,0.1);
   transform: rotate(-0.5deg);
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
 }
-.photo-frame:active { transform: rotate(0deg) scale(0.99); }
+/* Estado presionado — activado desde JS para que funcione en móvil */
+.photo-frame.pressed {
+  transform: rotate(0deg) scale(0.95);
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.3),
+    0 3px 10px rgba(0,0,0,0.2),
+    inset 0 0 0 1px rgba(0,0,0,0.1);
+}
 
 .photo-inner {
   width: 100%;
