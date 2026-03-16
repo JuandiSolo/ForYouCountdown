@@ -22,7 +22,7 @@ const DIA_PRUEBA = null;   // ← ejemplo: pon 3 para ver el día 3
 // cupon   → lo que dice el cupón del día
 const DIAS = [
   {
-    foto: ".../fotos/dia1.jpg",
+    foto: "fotos/dia1.jpg",
     caption: "el primer día que supe",
     frase: "Porque en el primer día que te vi, algo en mí supo que serías tú.",
     cupon: {

@@ -31,7 +31,7 @@
 
 body {
   background: var(--musgo2);
-  background-image: url('.../fotos/background.jpg');
+  background-image: url('fotos/background.jpg');
   color: var(--musgo-text);
   font-family: 'Libre Baskerville', Georgia, serif;
   min-height: 100svh;
@@ -732,3 +732,17 @@ body::after {
   box-shadow: 0 4px 20px rgba(58,125,62,0.3);
 }
 #toast.show { transform: translateX(-50%) translateY(0); }
+
+
+@media (max-width: 480px) {
+  .app-header { padding: 2.2rem 1rem 1.25rem; }
+  .header-title { font-size: 1.45rem; }
+  .countdown-section,
+  .photo-section,
+  .frase-section,
+  .cupon-section,
+  .deco-line { margin-left: 1rem; margin-right: 1rem; }
+  .countdown-number { font-size: 1.6rem; }
+  .photo-caption { font-size: 0.8rem; }
+  .frase-text { font-size: 1rem; line-height: 1.55; }
+}
