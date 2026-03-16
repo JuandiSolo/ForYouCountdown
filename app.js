@@ -7,7 +7,7 @@
 //   Ejemplos:
 //     "2025-06-15"  →  15 de junio de 2025
 //     "2025-07-20"  →  20 de julio de 2025
-const FECHA_STR    = "2026-04-15";
+const FECHA_STR    = "2026-03-29";
 const FECHA_OBJETIVO = new Date(FECHA_STR + "T00:00:00");
 
 // ► MODO PRUEBA — para ver cómo se ve cada día sin tocar el celular
