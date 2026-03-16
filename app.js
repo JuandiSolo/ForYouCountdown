@@ -4,7 +4,7 @@
 
 // Fecha en que se entrega el cuadro (año, mes-1, día)
 // Ejemplo: 20 de julio de 2025 → new Date(2025, 6, 20, 0, 0, 0)
-const FECHA_OBJETIVO = new Date(2025, 5, 15, 0, 0, 0);
+const FECHA_OBJETIVO = new Date(2026, 4, 15, 0, 0, 0);
 
 // ── CONTENIDO DE LOS 15 DÍAS ──────────────────
 // foto    → ruta relativa al archivo index.html (ej: "fotos/dia1.jpg")
