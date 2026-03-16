@@ -13,7 +13,7 @@ const FECHA_OBJETIVO = new Date(FECHA_STR + "T00:00:00");
 // ► MODO PRUEBA — para ver cómo se ve cada día sin tocar el celular
 //   Pon un número del 1 al 15 para forzar ese día en pantalla.
 //   Cuando ya no quieras probar, cámbialo a null.
-const DIA_PRUEBA = null;   // ← ejemplo: pon 3 para ver el día 3
+const DIA_PRUEBA = 1;   // ← ejemplo: pon 3 para ver el día 3
 
 // ── CONTENIDO DE LOS 15 DÍAS ──────────────────
 // foto    → ruta relativa al archivo index.html (ej: "fotos/dia1.jpg")
@@ -22,7 +22,7 @@ const DIA_PRUEBA = null;   // ← ejemplo: pon 3 para ver el día 3
 // cupon   → lo que dice el cupón del día
 const DIAS = [
   {
-    foto: "fotos/dia1.jpg",
+    foto: ".../fotos/dia1.jpg",
     caption: "el primer día que supe",
     frase: "Porque en el primer día que te vi, algo en mí supo que serías tú.",
     cupon: {
