@@ -9,9 +9,9 @@
   <meta name="theme-color" content="#1a0f0a">
   <title>Para Ti 💌</title>
 
-  <!-- Fuentes -->
+  <!-- Fuentes botánicas -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <!-- Estilos -->
   <link rel="stylesheet" href="estilos.css">
@@ -43,10 +43,11 @@
      Solo cambia el texto si quieres personalizarlo
 ══════════════════════════════════════════ -->
 <div id="splash">
-  <div class="splash-heart">💌</div>
+  <div class="splash-icon">🌿</div>
   <div class="splash-title">Para ti,<br>cada día</div>
-  <div class="splash-sub">15 días · 15 razones</div>
-  <button class="splash-btn" onclick="enterApp()">✦ Abrir ✦</button>
+  <div class="splash-divider"><span>campo · 15 días</span></div>
+  <div class="splash-sub">15 razones · 15 cupones</div>
+  <button class="splash-btn" onclick="enterApp()">Abrir diario</button>
 </div>
 
 
@@ -57,13 +58,13 @@
 
   <!-- HEADER -->
   <div class="app-header">
-    <div class="day-label">— día de hoy —</div>
-    <div class="header-title" id="header-title">Cuenta regresiva</div>
+    <div class="day-label">— espécimen del día —</div>
+    <div class="header-title" id="header-title">Diario de campo</div>
   </div>
 
   <!-- COUNTDOWN -->
   <div class="countdown-section">
-    <div class="countdown-label">⏳ Faltan</div>
+    <div class="countdown-label">🌱 tiempo restante</div>
     <div id="countdown-content">
       <div class="countdown-grid">
         <div class="countdown-unit">
@@ -86,7 +87,7 @@
     </div>
   </div>
 
-  <div class="deco-line"><span>❧</span></div>
+  <div class="deco-line"><span>🍃</span></div>
 
   <!-- FOTO POLAROID -->
   <div class="photo-section">
@@ -106,7 +107,7 @@
           Si no carga, se muestra el placeholder.
         -->
         <div class="photo-placeholder" id="photo-placeholder">
-          <div class="photo-placeholder-icon">📸</div>
+          <div class="photo-placeholder-icon">🌿</div>
           <div class="photo-placeholder-text">foto del día <span id="photo-day-num">1</span></div>
           <div class="photo-placeholder-text" style="opacity:0.5">sube tu imagen en fotos/diaX.jpg</div>
         </div>
@@ -119,45 +120,53 @@
 
   <!-- FRASE DEL DÍA -->
   <div class="frase-section">
-    <div class="frase-label">✦ hoy pienso en ti porque</div>
+    <div class="frase-label">✦ observación del día</div>
     <div class="frase-text" id="frase-text">Cargando...</div>
   </div>
 
-  <div class="deco-line"><span>❧</span></div>
+  <div class="deco-line"><span>🌾</span></div>
 
   <!-- CUPÓN -->
   <div class="cupon-section">
-    <div class="cupon-section-label">✉ cupón del día</div>
+    <div class="cupon-section-label">✦ cupón de campo</div>
 
-    <!-- Botón para revelar -->
-    <button class="reveal-btn" id="reveal-btn" onclick="revelarCupon()">
-      <span>🎁</span>
-      <span>Revelar mi cupón de hoy</span>
-    </button>
+    <div class="printer" id="printer">
 
-    <!-- Cupón animado (oculto hasta que se presiona el botón) -->
-    <div class="cupon-wrapper" id="cupon-wrapper">
-
-      <!-- ← Este div es el que se convierte en imagen PNG -->
-      <div class="cupon" id="cupon-card">
-        <div class="cupon-top">
-          <div class="cupon-logo">Para ti, con amor 💌</div>
+      <!-- Cuerpo de la impresora -->
+      <div class="printer-body">
+        <div class="printer-top">
+          <div class="printer-light" id="printer-light"></div>
+          <div class="printer-brand">✦ FIELD PRESS ✦</div>
         </div>
-        <div class="cupon-body">
-          <span class="cupon-emoji" id="cupon-emoji">🌹</span>
-          <div class="cupon-title" id="cupon-title">Tu cupón</div>
-          <div class="cupon-desc"  id="cupon-desc">Descripción del cupón</div>
-        </div>
-        <div class="cupon-footer">
-          <div class="cupon-code"     id="cupon-code">DÍA-01</div>
-          <div class="cupon-validity">Válido hoy ∞</div>
-        </div>
+        <button class="printer-btn" id="reveal-btn" onclick="revelarCupon()">
+          <span class="printer-btn-icon">🎁</span>
+          <span>Imprimir cupón de hoy</span>
+        </button>
+        <!-- La ranura en el borde mismo inferior del cuerpo -->
+        <div class="printer-slot" id="printer-slot"></div>
       </div>
 
-      <!-- Botón que genera y descarga la imagen -->
-      <button class="save-btn" onclick="guardarCupon()">
-        ↓ Guardar cupón como imagen
-      </button>
+      <!-- El papel sale desde la ranura, pegado al cuerpo -->
+      <div class="cupon-salida" id="cupon-salida">
+        <div class="cupon" id="cupon-card">
+          <div class="cupon-top">
+            <div class="cupon-logo">Para ti, con amor 🌿</div>
+          </div>
+          <div class="cupon-body">
+            <span class="cupon-emoji" id="cupon-emoji">🌹</span>
+            <div class="cupon-title" id="cupon-title">Tu cupón</div>
+            <div class="cupon-desc"  id="cupon-desc">Descripción del cupón</div>
+          </div>
+          <div class="cupon-footer">
+            <div class="cupon-code"     id="cupon-code">DÍA-01</div>
+            <div class="cupon-validity">Válido hoy ∞</div>
+          </div>
+        </div>
+        <button class="save-btn" id="save-btn" onclick="guardarCupon()">
+          ↓ Guardar cupón como imagen
+        </button>
+      </div>
+
     </div>
   </div>
 

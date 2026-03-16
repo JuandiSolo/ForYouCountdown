@@ -7,7 +7,7 @@
 //   Ejemplos:
 //     "2025-06-15"  →  15 de junio de 2025
 //     "2025-07-20"  →  20 de julio de 2025
-const FECHA_STR    = "2026-03-29";
+const FECHA_STR    = "2026-03-17";
 const FECHA_OBJETIVO = new Date(FECHA_STR + "T00:00:00");
 
 // ► MODO PRUEBA — para ver cómo se ve cada día sin tocar el celular
@@ -189,6 +189,91 @@ const DIAS = [
 ];
 
 // ══════════════════════════════════════════════
+// TIEMPO GLOBAL — WorldTimeAPI (zona Colombia)
+// La app usa este tiempo, NO el reloj del celular.
+// Si no hay internet, usa el reloj local como fallback.
+// ══════════════════════════════════════════════
+
+// Aquí guardamos la fecha real del servidor una vez que llega
+let FECHA_SERVIDOR = null;     // objeto Date con la hora del servidor
+let TS_CARGA       = null;     // performance.now() en el momento de recibir la hora
+let TRAMPA_DETECTADA = false;  // si el celular está adelantado
+
+// Obtiene la hora del servidor y luego arranca la app
+async function iniciarConTiempoReal() {
+  // Mostrar estado de carga en el splash
+  const sub = document.querySelector('.splash-sub');
+  if (sub) sub.textContent = 'Verificando la fecha...';
+
+  try {
+    // WorldTimeAPI — zona Colombia (America/Bogota)
+    // Usamos un proxy de CORS porque la API no admite fetch directo desde GitHub Pages
+    // Alternativa 1: worldtimeapi.org
+    // Alternativa 2: timeapi.io (más permisivo con CORS)
+    const resp = await fetch('https://timeapi.io/api/time/current/zone?timeZone=America%2FBogota', {
+      cache: 'no-store'
+    });
+
+    if (!resp.ok) throw new Error('no response');
+    const data = await resp.json();
+
+    // timeapi.io devuelve: { dateTime: "2025-06-01T14:30:00.123", ... }
+    FECHA_SERVIDOR = new Date(data.dateTime);
+    TS_CARGA       = performance.now();
+
+    // Comparar con el reloj del celular
+    // Si el celular está MÁS DE 6 horas adelante → trampa detectada
+    const diferenciaHoras = (new Date() - FECHA_SERVIDOR) / (1000 * 60 * 60);
+    if (diferenciaHoras > 6) {
+      TRAMPA_DETECTADA = true;
+      mostrarPantallaTrampa();
+      return;
+    }
+
+  } catch (e) {
+    // Sin internet: usar reloj local con advertencia
+    FECHA_SERVIDOR = new Date();
+    TS_CARGA       = performance.now();
+    console.warn('WorldTimeAPI no disponible, usando reloj local');
+  }
+
+  // Todo bien — arrancar la app normal
+  if (sub) sub.textContent = '15 días · 15 razones';
+  arrancarApp();
+}
+
+// Devuelve la hora "real" actual (servidor + tiempo transcurrido desde la carga)
+function ahoraReal() {
+  if (!FECHA_SERVIDOR) return new Date(); // fallback
+  const transcurrido = performance.now() - TS_CARGA;
+  return new Date(FECHA_SERVIDOR.getTime() + transcurrido);
+}
+
+// ── Easter egg / pantalla de trampa ──────────────
+function mostrarPantallaTrampa() {
+  const splash = document.getElementById('splash');
+  splash.innerHTML = `
+    <div style="text-align:center; padding: 2rem; max-width: 320px;">
+      <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: heartbeat 1.8s ease-in-out infinite;">⏰</div>
+      <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.6rem; color:#c9a96e; line-height:1.3; margin-bottom:1rem;">
+        Ey, ey, ey...
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#f5ead8; line-height:1.6; margin-bottom:1.5rem;">
+        Vi lo que hiciste con la fecha del celular. 👀<br><br>
+        La paciencia también es un acto de amor.<br>
+        Cada día llega cuando tiene que llegar. 🌹
+      </div>
+      <div style="font-family:'Space Mono',monospace; font-size:0.6rem; color:#8b6650; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:2rem;">
+        Vuelve mañana con la fecha correcta
+      </div>
+      <button onclick="location.reload()" style="background:transparent; border:1px solid rgba(201,169,110,0.4); color:#c9a96e; padding:0.8rem 2rem; font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; border-radius:2px;">
+        ↺ Reintentar
+      </button>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════
 // HELPERS
 // ══════════════════════════════════════════════
 
@@ -196,27 +281,31 @@ function pad(n) {
   return String(n).padStart(2, '0');
 }
 
-// Calcula qué día del conteo mostrar (0 = día 1, 14 = día 15)
+// Calcula qué día del conteo mostrar usando la hora del servidor
 function getDayIndex() {
-  // Modo prueba: fuerza un día específico
   if (DIA_PRUEBA !== null) return Math.max(0, Math.min(14, DIA_PRUEBA - 1));
 
-  const ahora = new Date();
-  const hoy   = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()); // medianoche local
-  const meta  = new Date(FECHA_STR + "T00:00:00");
+  const ahora = ahoraReal();
+  const hoy   = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+  const meta  = new Date(FECHA_STR + 'T00:00:00');
 
-  const msDiff  = meta - hoy;
-  if (msDiff <= 0) return 14; // ya llegó el gran día → día 15
+  const msDiff = meta - hoy;
+
+  // El día de la fecha (msDiff === 0) o después → día 15
+  if (msDiff <= 0) return 14;
 
   const diasRestantes = Math.round(msDiff / (1000 * 60 * 60 * 24));
-  // 15 días antes → día 1 (idx 0)
-  // 1 día antes   → día 14 (idx 13)
-  // 0 días (hoy)  → día 15 (idx 14)
-  return Math.max(0, Math.min(14, 15 - diasRestantes));
+  // 1 día antes  → día 14 (idx 13)
+  // 2 días antes → día 13 (idx 12)
+  // ...
+  // 14 días antes → día 1 (idx 0)
+  // 15+ días antes → día 1 (idx 0)
+  return Math.max(0, Math.min(13, 14 - diasRestantes));
 }
 
 function getTimeLeft() {
-  const ms = FECHA_OBJETIVO - new Date();
+  const meta = new Date(FECHA_STR + 'T00:00:00');
+  const ms   = meta - ahoraReal();
   if (ms <= 0) return null;
   const total = Math.floor(ms / 1000);
   return {
@@ -244,6 +333,13 @@ function updateCountdown() {
   document.getElementById('cd-secs').textContent  = pad(t.secs);
 }
 
+// ── Función que arranca todo una vez que tenemos la hora real ──
+function arrancarApp() {
+  loadDayContent();
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}
+
 // ══════════════════════════════════════════════
 // CONTENIDO DEL DÍA
 // ══════════════════════════════════════════════
@@ -253,8 +349,8 @@ function loadDayContent() {
   const dia    = DIAS[idx];
   const dayNum = idx + 1;
 
-  // Fecha en la cinta dorada (encima de la polaroid)
-  const now     = new Date();
+  // Fecha en la cinta dorada (encima de la polaroid) — usa hora del servidor
+  const now     = ahoraReal();
   const dateStr = `${pad(now.getDate())} / ${pad(now.getMonth() + 1)} / ${now.getFullYear()}`;
   document.getElementById('photo-date').textContent = dateStr;
 
@@ -290,15 +386,37 @@ function loadDayContent() {
 }
 
 // ══════════════════════════════════════════════
-// REVELAR CUPÓN
+// IMPRESORA — animación de impresión
 // ══════════════════════════════════════════════
 
 function revelarCupon() {
-  const wrapper = document.getElementById('cupon-wrapper');
-  const btn     = document.getElementById('reveal-btn');
-  wrapper.classList.add('open');
-  btn.classList.add('revealed');
-  btn.innerHTML = '<span>✦</span><span>Cupón revelado</span>';
+  const btn    = document.getElementById('reveal-btn');
+  const luz    = document.getElementById('printer-light');
+  const salida = document.getElementById('cupon-salida');
+  const savBtn = document.getElementById('save-btn');
+
+  // Deshabilitar botón
+  btn.classList.add('imprimiendo');
+  btn.innerHTML = '<span class="printer-btn-icon">⏳</span><span>Imprimiendo...</span>';
+
+  // 1. Luz parpadea
+  luz.classList.add('printing');
+
+  // 2. Vibración en móvil
+  if (navigator.vibrate) navigator.vibrate([30, 20, 30, 20, 30, 20, 60]);
+
+  // 3. Pausa dramática, luego el papel sale
+  setTimeout(() => {
+    salida.classList.add('imprimiendo');
+  }, 400);
+
+  // 4. Cuando termina la animación del papel
+  setTimeout(() => {
+    luz.classList.remove('printing');
+    luz.classList.add('ready');
+    btn.innerHTML = '<span class="printer-btn-icon">✓</span><span>Cupón impreso</span>';
+    savBtn.classList.add('visible');
+  }, 2200);
 }
 
 // ══════════════════════════════════════════════
@@ -394,45 +512,22 @@ function enterApp() {
 }
 
 // ══════════════════════════════════════════════
-// INIT
+// INIT — arranca con tiempo del servidor
 // ══════════════════════════════════════════════
 
-loadDayContent();
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// ── Efecto press en la foto (funciona en móvil y computador) ──
-document.addEventListener('DOMContentLoaded', () => {});
+// Efecto press en la foto (funciona en móvil y computador)
 window.addEventListener('load', () => {
   const frame = document.querySelector('.photo-frame');
   if (!frame) return;
-
   const press   = () => frame.classList.add('pressed');
   const release = () => frame.classList.remove('pressed');
-
-  // Touch (móvil)
   frame.addEventListener('touchstart',  press,   { passive: true });
   frame.addEventListener('touchend',    release, { passive: true });
   frame.addEventListener('touchcancel', release, { passive: true });
-
-  // Mouse (computador)
-  frame.addEventListener('mousedown', press);
-  frame.addEventListener('mouseup',   release);
+  frame.addEventListener('mousedown',  press);
+  frame.addEventListener('mouseup',    release);
   frame.addEventListener('mouseleave', release);
 });
 
-// Service Worker para que funcione offline (PWA)
-if ('serviceWorker' in navigator) {
-  const swCode = `
-    self.addEventListener('install', e => e.waitUntil(
-      caches.open('amor-v1').then(c =>
-        c.addAll(['./', './index.html', './estilos.css', './app.js'])
-      )
-    ));
-    self.addEventListener('fetch', e => e.respondWith(
-      caches.match(e.request).then(r => r || fetch(e.request))
-    ));
-  `;
-  const swBlob = new Blob([swCode], { type: 'application/javascript' });
-  navigator.serviceWorker.register(URL.createObjectURL(swBlob));
-}
+// Arranca consultando la hora real del servidor
+iniciarConTiempoReal();
