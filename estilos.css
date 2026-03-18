@@ -38,9 +38,11 @@ body {
   font-family: 'Libre Baskerville', Georgia, serif;
   min-height: 100svh;
   overflow-x: hidden;
-  position: fixed;
+  overflow-y: auto;
+  position: relative;
   inset: 0;
   overflow: hidden;
+  background-color: #f0f7f0; /* mismo tono que tu fondo */
 }
 
 /* Textura muy sutil — casi invisible en claro */
@@ -58,11 +60,13 @@ body::before {
 body::after {
   content: '';
   position: fixed;
-  inset: 0;
-  background-image:
-    repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(106,170,110,0.06) 60px, rgba(106,170,110,0.06) 61px),
-    repeating-linear-gradient( 45deg, transparent, transparent 80px, rgba(106,170,110,0.04) 80px, rgba(106,170,110,0.04) 81px);
-  pointer-events: none;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: env(safe-area-inset-bottom);
+  background-image: url('fotos/background.jpg');
+  background-size: cover;
+  background-position: bottom;
   z-index: 0;
 }
 
@@ -215,7 +219,8 @@ body, #app {
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  
+  padding-bottom: calc(env(safe-area-inset-bottom) + 2rem);
+
 }
 
 #app.visible {
