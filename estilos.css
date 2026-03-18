@@ -19,7 +19,9 @@
   --cobre-claro:#d4945a;
   --musgo-text: #2d5230;   /* texto principal — verde oscuro legible */
   --espora:     #5a8a5e;  /* texto secundario */
-  --printing:     #fff200;    
+  --printing:     #fff200;  
+  --safe-top: env(safe-area-inset-top, 0px);
+    
 }
 
 * {
@@ -42,9 +44,11 @@ body {
   min-height: 100svh;
   min-height: -webkit-fill-available;
   overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
-  overscroll-behavior-y: none;
-  -webkit-overflow-scrolling: touch;
+  inset: 0;
+  overflow: hidden;
+  background-color: #f0f7f0; /* mismo tono que tu fondo */
 }
 
 /* Textura muy sutil — casi invisible en claro */
@@ -62,11 +66,13 @@ body::before {
 body::after {
   content: '';
   position: fixed;
-  inset: 0;
-  background-image:
-    repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(106,170,110,0.06) 60px, rgba(106,170,110,0.06) 61px),
-    repeating-linear-gradient( 45deg, transparent, transparent 80px, rgba(106,170,110,0.04) 80px, rgba(106,170,110,0.04) 81px);
-  pointer-events: none;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: env(safe-area-inset-bottom);
+  background-image: url('fotos/background.jpg');
+  background-size: cover;
+  background-position: bottom;
   z-index: 0;
 }
 
@@ -177,6 +183,30 @@ body::after {
   background: rgba(106,170,110,0.1);
 }
 
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  background-image: url("fotos/background.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+body, #app {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 /* ══════════════════════════════════════════════
    MAIN APP
 ══════════════════════════════════════════════ */
@@ -188,9 +218,23 @@ body::after {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+  z-index: 1; 
   position: relative;
-  z-index: 1;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+  box-sizing: border-box;
+
+  background-image: url("fotos/background.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 2rem);
+
 }
+
 #app.visible {
   opacity: 1;
   transform: translateY(0);
@@ -199,8 +243,10 @@ body::after {
 /* ── HEADER ── */
 .app-header {
   text-align: center;
-  padding: 3rem 1.5rem 1.75rem;
-  padding-top: 300px !important;
+  padding:
+    calc(var(--safe-top) + 1.4rem)
+    1.5rem
+    1.75rem;
   position: relative;
 }
 
@@ -212,6 +258,7 @@ body::after {
   height: 22px;
   border-color: rgba(74,124,78,0.4);
   border-style: solid;
+  top: calc(var(--safe-top) + 0.7rem);
 }
 .app-header::before { top: 2.25rem; left: 1.5rem; border-width: 1px 0 0 1px; }
 .app-header::after  { top: 2.25rem; right: 1.5rem; border-width: 1px 1px 0 0; }
@@ -750,7 +797,18 @@ body::after {
 
 
 @media (max-width: 480px) {
-  .app-header { padding: 2.2rem 1rem 1.25rem; }
+  .app-header {
+    padding:
+      calc(var(--safe-top) + 1.1rem)
+      1rem
+      1.25rem;
+  }
+
+  .app-header::before,
+  .app-header::after {
+    top: calc(var(--safe-top) + 0.35rem);
+  }
+
   .header-title { font-size: 1.45rem; }
   .countdown-section,
   .photo-section,
