@@ -200,8 +200,9 @@ body::after {
 .app-header {
   text-align: center;
   padding: 3rem 1.5rem 1.75rem;
-  /* En modo standalone (PWA), empuja el header bajo la muesca */
-  padding-top: calc(3rem + env(safe-area-inset-top));
+  /* safe-area-inset-top cubre la Dynamic Island (~59px en iPhone 16)
+     + 1.5rem de aire extra para que el título no quede pegado */
+  padding-top: calc(1.5rem + env(safe-area-inset-top, 50px));
   position: relative;
 }
 
