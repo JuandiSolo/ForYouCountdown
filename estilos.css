@@ -29,14 +29,22 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  height: -webkit-fill-available;
+  overscroll-behavior: none;
+}
+
 body {
   background: var(--musgo2);
   background-image: url('fotos/background.jpg');
   color: var(--musgo-text);
   font-family: 'Libre Baskerville', Georgia, serif;
   min-height: 100svh;
+  min-height: -webkit-fill-available;
   overflow-x: hidden;
   position: relative;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Textura muy sutil — casi invisible en claro */
@@ -80,6 +88,11 @@ body::after {
   gap: 1.75rem;
   z-index: 200;
   transition: opacity 0.9s ease, transform 0.9s ease;
+  /* Safe area: respeta la muesca y el home indicator de iPhone */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cpath d='M10,130 Q40,50 120,10 Q90,55 65,70 Q40,80 10,130Z' fill='%23a8d4aa' opacity='0.4'/%3E%3Cpath d='M10,130 Q38,68 65,70' stroke='%236aaa6e' stroke-width='0.8' fill='none' opacity='0.5'/%3E%3Cpath d='M65,70 Q90,55 120,10' stroke='%236aaa6e' stroke-width='0.6' fill='none' opacity='0.4'/%3E%3C/svg%3E"),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cpath d='M130,130 Q100,50 20,10 Q50,55 75,70 Q100,80 130,130Z' fill='%23a8d4aa' opacity='0.4'/%3E%3Cpath d='M130,130 Q102,68 75,70' stroke='%236aaa6e' stroke-width='0.8' fill='none' opacity='0.5'/%3E%3C/svg%3E");
@@ -170,7 +183,8 @@ body::after {
 #app {
   max-width: 430px;
   margin: 0 auto;
-  padding: 0 0 6rem;
+  /* El padding-bottom incluye el home indicator de iPhone */
+  padding: 0 0 calc(6rem + env(safe-area-inset-bottom));
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
@@ -186,6 +200,8 @@ body::after {
 .app-header {
   text-align: center;
   padding: 3rem 1.5rem 1.75rem;
+  /* En modo standalone (PWA), empuja el header bajo la muesca */
+  padding-top: calc(3rem + env(safe-area-inset-top));
   position: relative;
 }
 
