@@ -200,16 +200,8 @@ body::after {
 .app-header {
   text-align: center;
   padding: 3rem 1.5rem 1.75rem;
-  /* Padding fijo generoso — funciona en Safari normal y en PWA */
-  padding-top: 210px;
+  padding-top: 300px !important;
   position: relative;
-}
-
-/* En PWA suma además el safe area de la Dynamic Island */
-@media all and (display-mode: standalone) {
-  .app-header {
-    padding-top: calc(110px + env(safe-area-inset-top, 0px));
-  }
 }
 
 .app-header::before,
