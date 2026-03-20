@@ -7,13 +7,13 @@
 //   Ejemplos:
 //     "2025-06-15"  →  15 de junio de 2025
 //     "2025-07-20"  →  20 de julio de 2025
-const FECHA_STR    = "2026-03-30";
+const FECHA_STR    = "2026-03-21";
 const FECHA_OBJETIVO = new Date(FECHA_STR + "T00:00:00");
 
 // ► MODO PRUEBA — para ver cómo se ve cada día sin tocar el celular
 //   Pon un número del 1 al 15 para forzar ese día en pantalla.
 //   Cuando ya no quieras probar, cámbialo a null.
-const DIA_PRUEBA = null;   // ← ejemplo: pon 3 para ver el día 3
+const DIA_PRUEBA = NULL;   // ← ejemplo: pon 3 para ver el día 3
 
 // ── CONTENIDO DE LOS 15 DÍAS ──────────────────
 // foto    → ruta relativa al archivo index.html (ej: "fotos/dia1.jpg")
@@ -23,166 +23,166 @@ const DIA_PRUEBA = null;   // ← ejemplo: pon 3 para ver el día 3
 const DIAS = [
   {
     foto: "fotos/dia1.jpg",
-    caption: "el primer día que supe",
-    frase: "Porque en el primer día que te vi, algo en mí supo que serías tú.",
+    caption: "el primer día que realmente te conocí",
+    frase: "Que esta aventura a la que llamo conocerte nunca pare por favor.",
     cupon: {
-      emoji: "☕",
-      titulo: "Un café con charla infinita",
-      desc: "Válido para una mañana entera contigo, con café caliente y sin prisa.",
-      code: "CAFÉ-01"
+      emoji: "🍕",
+      titulo: "Noche de pizza",
+      desc: "Válido para noche pizza mientras vemos peliculas. Adición de cobija incluida.",
+      code: "PIZZA-01"
     }
   },
   {
     foto: "fotos/dia2.jpg",
-    caption: "cuando te reíste así",
-    frase: "Porque tu risa es el sonido más bonito que conozco y nunca me canso de escucharlo.",
+    caption: "tu foto favorita jeje",
+    frase: "Gracias por darme de ti, y dejarme entrar en esa cabezita tuya :).",
     cupon: {
-      emoji: "🍕",
-      titulo: "Pizza de medianoche",
-      desc: "Canjeable por una noche de pizza, película y pijamas. Sin negociación.",
-      code: "NOCHE-02"
+      emoji: "🐞",
+      titulo: "Recorrido por naturaleza",
+      desc: "Canjeable por una caminada por el parque tomandole foto a bichitos, juntos.",
+      code: "NATURALEZA-02"
     }
   },
   {
     foto: "fotos/dia3.jpg",
-    caption: "nuestro lugar favorito",
-    frase: "Porque cualquier lugar se vuelve nuestro cuando estás tú en él.",
+    caption: "me encantó este plan, perdon por vomitar jeje",
+    frase: "El sentimiento de flotar es curioso, porque asi me siento cuando te acuestas sobre mi.",
     cupon: {
-      emoji: "🚗",
-      titulo: "Paseo sorpresa",
-      desc: "Te llevo a donde tú quieras, sin mapa y sin plan. Solo nosotros.",
-      code: "PASEO-03"
+      emoji: "📼",
+      titulo: "Sala Realidad Virtual",
+      desc: "Valido para una tarde jugando a realidad virtual en la U (Vale la pena corazón te lo prometo).",
+      code: "VR-03"
     }
   },
   {
     foto: "fotos/dia4.jpg",
-    caption: "la tarde que no olvidamos",
-    frase: "Porque cada tarde contigo vale más que mil días sin ti.",
+    caption: "una bonita tarde con esta personita",
+    frase: "Dicen que una imagen dice mil palabras, yo solo necesito una.",
     cupon: {
       emoji: "💆",
-      titulo: "Masaje de 20 minutos",
-      desc: "Espalda, hombros, cabeza — tú decides. Yo obedezco.",
+      titulo: "Masaje de 30 minutos",
+      desc: "Cabeza, cuello, hombros — tú me dices. Yo cumplo.",
       code: "RELAX-04"
     }
   },
   {
     foto: "fotos/dia5.jpg",
-    caption: "cuando me diste la mano",
-    frase: "Porque tu mano en la mía es el tipo de seguridad que no se compra ni se explica.",
+    caption: "foto que nos tomaron jeje",
+    frase: "¿Te han dicho que tu mano cura mas dolores que la mejor medicina?.",
     cupon: {
-      emoji: "🌙",
-      titulo: "Noche de estrellas",
-      desc: "Salimos a ver el cielo juntos. Traigo cobija, tú traes ganas.",
-      code: "LUNA-05"
+      emoji: "🧋",
+      titulo: "Cosechas",
+      desc: "Te compro tu cosechas favorito, así matas el antojo.",
+      code: "COSECHAS-05"
     }
   },
   {
     foto: "fotos/dia6.jpg",
-    caption: "esa sonrisa que guardo",
-    frase: "Porque tengo guardadas mil versiones de tu sonrisa y todas son mi favorita.",
+    caption: "foto manitas creativas",
+    frase: "Conozco muchas versiones de ti, pero mi favorita no la he encontrado",
     cupon: {
       emoji: "🎵",
       titulo: "Concierto privado",
-      desc: "Te pongo tu playlist favorita y cantamos como nadie nos escucha. Porque nadie nos escucha.",
+      desc: "Escuchamos tu playlist favorita y miramos a las estrellas como si no existiera nadie mas en el mundo.",
       code: "MUSICA-06"
     }
   },
   {
     foto: "fotos/dia7.jpg",
-    caption: "a la mitad del camino",
-    frase: "Porque llevamos la mitad del camino juntos y cada paso ha valido la pena.",
+    caption: "cuando conociste a una parte de mi familia",
+    frase: "Acaso eres tu la chica que me tiene pensandola todo el dia.",
     cupon: {
-      emoji: "🍫",
-      titulo: "Día de antojos",
-      desc: "Hoy tú pides y yo traigo. Chocolate, helado, lo que sea. Sin excusas.",
-      code: "ANTOJO-07"
+      emoji: "🎨",
+      titulo: "Tarde de pintar",
+      desc: "Nos sentamos los dos en un parque, a dibujar o a colorear mandalas.",
+      code: "PINTAR-07"
     }
   },
   {
     foto: "fotos/dia8.jpg",
-    caption: "cuando todo fue más fácil",
-    frase: "Porque contigo hasta los días difíciles tienen algo bueno escondido.",
+    caption: "me encanta esta fotooo",
+    frase: "Nunca cambies, eres perfecta como eres y que nadie te diga lo contrario.",
     cupon: {
-      emoji: "🛁",
-      titulo: "Noche de spa en casa",
-      desc: "Música suave, velas, y tiempo solo para ti. Te lo mereces.",
-      code: "SPA-08"
+      emoji: "🍫",
+      titulo: "Antojitos",
+      desc: "Redimible para 5 antojos que tengas, yo te los cumplo.",
+      code: "ANTOJO-08"
     }
   },
   {
     foto: "fotos/dia9.jpg",
-    caption: "esos momentos quietos",
-    frase: "Porque el silencio contigo es de los más bonitos que existen.",
+    caption: "jaja se durmió (tenia que ponerla corazón)",
+    frase: "Corazón, si yo fuera gey",
     cupon: {
-      emoji: "📚",
-      titulo: "Tarde de lectura juntos",
-      desc: "Leemos lo que queramos, en el mismo cuarto, sin hablar. Perfectamente juntos.",
-      code: "LIBRO-09"
+      emoji: "🍇",
+      titulo: "Bolsa de uvas",
+      desc: "Valido por una bolsita completa de uvas verdes.",
+      code: "UVAS-09"
     }
   },
   {
     foto: "fotos/dia10.jpg",
-    caption: "mirándote sin que lo supieras",
-    frase: "Porque me atrapaste mirándote y no me arrepentí ni un segundo.",
+    caption: "recuerdo del chino",
+    frase: "Tu mirada me atrapa, siempre que me miras siento como si por toda mi vida me hubieras estado mirando.",
     cupon: {
-      emoji: "🌺",
-      titulo: "Flores sin razón",
-      desc: "Flores porque sí, porque es martes, porque existes. Sin más.",
-      code: "FLOR-10"
+      emoji: "🎤",
+      titulo: "Tarde de karaoke",
+      desc: "Una tarde de karaoke en mi casa, ponemos la musica y cantamos a todo pulmón.",
+      code: "KARAOKE-10"
     }
   },
   {
     foto: "fotos/dia11.jpg",
-    caption: "cuatro días más",
-    frase: "Porque la espera tiene más sentido cuando sé que eres tú al final.",
+    caption: "btw amo salir a bailar contigo",
+    frase: "Que pena no estar siempre pendiente, pero creeme que estoy ahi",
     cupon: {
-      emoji: "🍷",
-      titulo: "Cena especial",
-      desc: "Una cena como se debe — mesa bonita, música, brindis y tú enfrente.",
-      code: "CENA-11"
+      emoji: "👽",
+      titulo: "Ver Avatar",
+      desc: "AJA MIRA, aqui esta tu cupón de ver Avatar, no se donde, no se como, pero la vemos.",
+      code: "AVATAR-11"
     }
   },
   {
     foto: "fotos/dia12.jpg",
-    caption: "casi llegamos",
-    frase: "Porque tres días más y tengo la excusa perfecta para mimarte el doble.",
+    caption: "jeje, no voy a decir nada",
+    frase: "Cuidado con esa cola que yo no perdono.",
     cupon: {
-      emoji: "🎨",
-      titulo: "Tarde creativa",
-      desc: "Pintamos, dibujamos, hacemos lo que sea. El arte cuenta si estás tú.",
-      code: "ARTE-12"
+      emoji: "📦",
+      titulo: "Tarde de LEGOS",
+      desc: "Armamos legos juntos en mi casa. Solos tu y yo.",
+      code: "LEGOS-12"
     }
   },
   {
     foto: "fotos/dia13.jpg",
-    caption: "mañana mismo",
-    frase: "Porque mañana se acerca y hoy ya te quiero tanto como siempre.",
+    caption: "aprovechando que nos tomaron esta foto",
+    frase: "Porque ni el presente es tan regalo como lo eres tu en mi vida.",
     cupon: {
-      emoji: "🌅",
-      titulo: "Ver el amanecer juntos",
-      desc: "Madrugar vale la pena cuando lo primero que ves es el cielo contigo.",
-      code: "AMANECER-13"
+      emoji: "🏷️",
+      titulo: "Tarde de presentaciones",
+      desc: "Cada uno expone media hora sobre su tema favorito sin interrupciones.",
+      code: "PRESENTACIONES-13"
     }
   },
   {
-    foto: ".../fotos/dia14.jpg",
-    caption: "el día antes",
-    frase: "Porque mañana es el gran día y hoy ya estoy celebrando que eres tú.",
+    foto: "fotos/dia14.jpg",
+    caption: "jeje foto random, gracias seneca",
+    frase: "Gracias suegrita por darme a tan increible persona.",
     cupon: {
       emoji: "💃",
-      titulo: "Bailar en la cocina",
-      desc: "Canción random, dos pies torpes, cero vergüenza. Bailamos.",
+      titulo: "Bailar juntos",
+      desc: "Un baile privado, tu eliges la canción y la gozamos.",
       code: "BAILE-14"
     }
   },
   {
     foto: "fotos/dia15.jpg",
-    caption: "¡llegamos!",
-    frase: "Porque este fue el regalo más largo que preparé y tú eres la razón de cada día.",
+    caption: "finalmente mi foto favorita corazón",
+    frase: "Corazón, tu te mereces lo mejor siempre, no solo de mí sino de la vida. NUNCA lo olvides.",
     cupon: {
-      emoji: "💍",
+      emoji: "⭐",
       titulo: "Un deseo que yo cumplo",
-      desc: "Lo que me pidas hoy. Cualquier cosa. Solo di la palabra.",
+      desc: "Lo que me pidas hoy. Solo di la palabra.",
       code: "DESEO-15"
     }
   }
@@ -255,10 +255,10 @@ function mostrarPantallaTrampa() {
   splash.innerHTML = `
     <div style="text-align:center; padding: 2rem; max-width: 320px;">
       <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: heartbeat 1.8s ease-in-out infinite;">⏰</div>
-      <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.6rem; color:#c9a96e; line-height:1.3; margin-bottom:1rem;">
+      <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.6rem; color:#8b6650; line-height:1.3; margin-bottom:1rem;">
         Ey, ey, ey...
       </div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#f5ead8; line-height:1.6; margin-bottom:1.5rem;">
+      <div style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#8b6650; line-height:1.6; margin-bottom:1.5rem;">
         Vi lo que hiciste con la fecha del celular. 👀<br><br>
         La paciencia también es un acto de amor.<br>
         Cada día llega cuando tiene que llegar. 🌹
