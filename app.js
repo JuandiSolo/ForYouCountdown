@@ -7,13 +7,13 @@
 //   Ejemplos:
 //     "2025-06-15"  →  15 de junio de 2025
 //     "2025-07-20"  →  20 de julio de 2025
-const FECHA_STR    = "2026-03-21";
+const FECHA_STR    = "2026-04-04";
 const FECHA_OBJETIVO = new Date(FECHA_STR + "T00:00:00");
 
 // ► MODO PRUEBA — para ver cómo se ve cada día sin tocar el celular
 //   Pon un número del 1 al 15 para forzar ese día en pantalla.
 //   Cuando ya no quieras probar, cámbialo a null.
-const DIA_PRUEBA = NULL;   // ← ejemplo: pon 3 para ver el día 3
+const DIA_PRUEBA = null;   // ← ejemplo: pon 3 para ver el día 3
 
 // ── CONTENIDO DE LOS 15 DÍAS ──────────────────
 // foto    → ruta relativa al archivo index.html (ej: "fotos/dia1.jpg")
