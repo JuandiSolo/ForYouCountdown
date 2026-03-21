@@ -259,12 +259,12 @@ function mostrarPantallaTrampa() {
         Ey, ey, ey...
       </div>
       <div style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#8b6650; line-height:1.6; margin-bottom:1.5rem;">
-        Vi lo que hiciste con la fecha del celular. 👀<br><br>
-        La paciencia también es un acto de amor.<br>
-        Cada día llega cuando tiene que llegar. 🌹
+        Ehhh hola corazón, nunca deberias ver esta pantalla.<br><br>
+        Pero si lo haces es porque cambiaste la fecha del celular.<br>
+        Nao naooo, cada día llega cuando tiene que llegar. 🌹
       </div>
       <div style="font-family:'Space Mono',monospace; font-size:0.6rem; color:#8b6650; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:2rem;">
-        Vuelve mañana con la fecha correcta
+        Recarga con la fecha correcta jeje
       </div>
       <button onclick="location.reload()" style="background:transparent; border:1px solid rgba(201,169,110,0.4); color:#c9a96e; padding:0.8rem 2rem; font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; border-radius:2px;">
         ↺ Reintentar
@@ -324,7 +324,7 @@ function updateCountdown() {
   const t = getTimeLeft();
   if (!t) {
     document.getElementById('countdown-content').innerHTML =
-      '<div class="end-message">¡Llegó el gran día! 🎉</div>';
+      '<div class="end-message">¡Llegó el día! 🎉</div>';
     return;
   }
   document.getElementById('cd-days').textContent  = pad(t.days);
